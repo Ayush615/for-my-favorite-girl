@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Important Question 💌</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Pacifico&display=swap');
+
+:root{
+  --pink:#ff6fae;
+  --deep:#d83b7d;
+  --soft:#fff0f7;
+  --cream:#fffafc;
+  --text:#4b2940;
+  --muted:#9a6f86;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; overflow-x:hidden;
+  font-family:"DM Sans",sans-serif; color:var(--text);
+  background:radial-gradient(circle at 15% 15%,#ffd6e9 0,transparent 28%),
+             radial-gradient(circle at 85% 80%,#ffc5df 0,transparent 30%),
+             linear-gradient(135deg,#fff8fb,#ffeaf4);
+}
+body:before{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.35;
+  background-image:radial-gradient(#fff 1px,transparent 1px);
+  background-size:22px 22px;
+}
+.screen{
+  min-height:100vh; display:none; place-items:center; padding:28px 18px;
+  position:relative; z-index:2;
+}
+.screen.active{display:grid}
+.card{
+  width:min(720px,100%); text-align:center; padding:42px 28px;
+  background:rgba(255,255,255,.82); backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.95); border-radius:32px;
+  box-shadow:0 25px 80px rgba(165,55,105,.16);
+}
+.badge{
+  display:inline-block; padding:8px 14px; border-radius:999px;
+  background:#fff0f7; color:var(--deep); font-size:13px; font-weight:700;
+}
+h1{font-size:clamp(34px,7vw,62px); line-height:1.03; margin:18px 0 12px}
+h2{font-size:clamp(28px,5vw,44px); margin:10px 0}
+.script{font-family:Pacifico,cursive;color:var(--deep)}
+p{font-size:17px; line-height:1.7;color:var(--muted)}
+.question{font-size:20px;color:var(--text)}
+.highlight{color:var(--deep);font-weight:700}
+.buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:28px}
+button{
+  border:0; cursor:pointer; font:inherit; font-weight:700;
+  border-radius:18px; padding:15px 24px; transition:.25s ease;
+}
+.primary{background:linear-gradient(135deg,#ff6fae,#e74b91);color:white;box-shadow:0 12px 28px #e74b9138}
+.primary:hover{transform:translateY(-3px) scale(1.03)}
+.secondary{background:white;color:var(--deep);border:2px solid #ffd0e4}
+#noBtn{position:relative}
+.floating{
+  position:fixed; pointer-events:none; z-index:1; animation:float 6s linear forwards;
+  font-size:22px; opacity:.8;
+}
+@keyframes float{from{transform:translateY(105vh) rotate(0)}to{transform:translateY(-15vh) rotate(360deg);opacity:0}}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+.levels{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:25px}
+.level{
+  text-align:left;background:#fff;border:2px solid #ffe0ed;padding:20px;border-radius:22px;
+  color:var(--text); box-shadow:0 8px 20px #d83b7d0b;
+}
+.level:hover{border-color:#ff9bc2;transform:translateY(-3px)}
+.level strong{display:block;font-size:18px}.level small{color:var(--muted)}
+@media(max-width:560px){.levels{grid-template-columns:1fr}.card{padding:32px 20px}}
+.progress{height:14px;background:#ffe1ed;border-radius:99px;overflow:hidden;margin:28px 0 18px}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#ff8fbe,#d83b7d);transition:width .7s}
+.loader-msg{min-height:32px;font-weight:700;color:var(--deep)}
+.meme{font-size:13px;color:#a56a89;margin-top:10px}
+.final-note{background:#fff3f8;border-radius:22px;padding:18px;margin:22px 0}
+.confetti{position:fixed;top:-20px;font-size:20px;animation:fall 2.8s linear forwards;z-index:10}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div id="intro" class="screen active">
+  <div class="card">
+    <span class="badge">💌 TOP SECRET BOYFRIEND INVESTIGATION</span>
+    <h1>Important Question<br><span class="script">for My Favorite Girl</span></h1>
+    <p class="question">Will you send me a collection of your cutest pictures?</p>
+    <p><span class="highlight">10? 20? 30? 40? 👀</span><br>
+    And maybe… a few that are just for my eyes? 😏</p>
+    <div class="buttons">
+      <button class="primary" id="yesBtn">YES 😇</button>
+      <button class="secondary" id="noBtn">NO 🙄</button>
+    </div>
+    <div id="noMessage" class="meme"></div>
+  </div>
+</div>
+
+<div id="levels" class="screen">
+  <div class="card">
+    <span class="badge">MISSION UNLOCKED 🔓</span>
+    <h2>Excellent choice 😌❤️</h2>
+    <p>Now choose your level of generosity…</p>
+    <div class="levels">
+      <button class="level" data-count="10">🌸 <strong>Cute Girl Starter Pack</strong><small>10 photos</small></button>
+      <button class="level" data-count="20">💕 <strong>Very Cute Collection</strong><small>20 photos</small></button>
+      <button class="level" data-count="30">🔥 <strong>A Little Spicy</strong><small>30 photos</small></button>
+      <button class="level" data-count="40">👀 <strong>Dangerous Level</strong><small>40 photos</small></button>
+    </div>
+    <p class="meme">You already know which ones I'm secretly hoping for… 😏</p>
+    <div class="final-note">🔒 <b>Private Collection</b><br>Some pictures are simply too precious for the public. 😌</div>
+  </div>
+</div>
+
+<div id="loading" class="screen">
+  <div class="card">
+    <span class="badge">PROCESSING REQUEST…</span>
+    <h2>Preparing your extremely important submission</h2>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <div class="loader-msg" id="loaderMsg">Initializing boyfriend.exe…</div>
+    <div class="meme" id="loaderSub">Please remain beautiful.</div>
+  </div>
+</div>
+
+<div id="final" class="screen">
+  <div class="card">
+    <span class="badge">MISSION STATUS: SUCCESS ❤️‍🔥</span>
+    <h2>Okay, jokes aside… ❤️</h2>
+    <p>I made this stupid little website just to make you smile.</p>
+    <p>You're my favorite person to annoy, tease, admire and love. 🫶</p>
+    <div class="final-note">
+      <b>And now… about those pictures… 👀</b><br><br>
+      You know what I'm talking about. 😏
+    </div>
+    <p>Since you're at home and can't send them to me on WhatsApp right now… 😭<br>
+    You can send them to me on <b>Instagram DM</b> instead. 👀💗</p>
+    <p class="meme">Cute ones, pretty ones… and maybe the ones you're pretending you weren't planning to send. 😏</p>
+    <div class="buttons">
+      <button class="primary" id="instaBtn">SEND THEM ON INSTAGRAM 💌</button>
+    </div>
+    <p class="meme" style="margin-top:25px">
+      Instagram DM Department 🫡<br>
+      Status: Accepting applications · Operating hours: 24/7<br>
+      Employee: Me · Quality Control: Also me 😌
+    </p>
+    <p class="script">Thank you for your cooperation, beautiful. 🎀</p>
+  </div>
+</div>
+
+<script>
+const screens = document.querySelectorAll('.screen');
+function show(id){
+  screens.forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function heart(){
+  const e=document.createElement('div');
+  e.className='floating';
+  e.textContent=['💗','💕','🎀','✨','🌸'][Math.floor(Math.random()*5)];
+  e.style.left=Math.random()*100+'vw';
+  e.style.animationDuration=(4+Math.random()*4)+'s';
+  document.body.appendChild(e);
+  setTimeout(()=>e.remove(),8000);
+}
+setInterval(heart,700);
+
+const noBtn=document.getElementById('noBtn');
+const noMessage=document.getElementById('noMessage');
+let noClicks=0;
+const noTexts=[
+  'Hmm… interesting. Are you sure? 🥺',
+  'Think about that answer again… 👀',
+  "That doesn't seem like the correct answer.",
+  "Girl, why are you fighting your own happiness? 😭",
+  'NO button is getting nervous 😂',
+  'HEY! COME BACK 😭',
+  'NO has resigned from its position.'
+];
+
+noBtn.addEventListener('click',()=>{
+  noClicks++;
+  noMessage.textContent=noTexts[Math.min(noClicks-1,noTexts.length-1)];
+  noBtn.classList.add('shake');
+  setTimeout(()=>noBtn.classList.remove('shake'),400);
+  if(noClicks>=5){
+    const maxX=Math.max(40,Math.min(160,window.innerWidth/2-80));
+    const maxY=Math.max(40,Math.min(120,window.innerHeight/2-80));
+    noBtn.style.transform=`translate(${(Math.random()-.5)*maxX}px, ${(Math.random()-.5)*maxY}px) scale(${Math.max(.55,1-noClicks*.07)})`;
+  }
+  if(noClicks>=8){
+    noBtn.textContent='NO has resigned 😭';
+    noBtn.style.transform='scale(.55)';
+  }
+});
+
+document.getElementById('yesBtn').onclick=()=>show('levels');
+
+document.querySelectorAll('.level').forEach(btn=>{
+  btn.onclick=()=>{
+    show('loading');
+    runLoader(btn.dataset.count);
+  };
+});
+
+function runLoader(count){
+  const bar=document.getElementById('bar');
+  const msg=document.getElementById('loaderMsg');
+  const sub=document.getElementById('loaderSub');
+  const messages=[
+    ['Analyzing cuteness… 🌸','This may take a moment.'],
+    ['Counting acceptable levels of beauty… 👀','Results are concerning.'],
+    ['Boyfriend.exe is experiencing difficulties…','Too much beauty detected.'],
+    ['System requires emotional support. 😭','Please send snacks.'],
+    [`Preparing ${count} very important photos…`,'This is strictly professional research. 😌'],
+    ['Almost there… ❤️‍🔥','Mission control is losing it.'],
+    ['MISSION ACCEPTED ❤️‍🔥','100% complete.']
+  ];
+  let i=0;
+  const timer=setInterval(()=>{
+    i++;
+    bar.style.width=Math.min(100,i*15)+'%';
+    const m=messages[Math.min(i-1,messages.length-1)];
+    msg.textContent=m[0]; sub.textContent=m[1]||'';
+    if(i>=7){
+      clearInterval(timer);
+      setTimeout(()=>{show('final');confetti();},900);
+    }
+  },650);
+}
+
+function confetti(){
+  for(let i=0;i<45;i++){
+    const e=document.createElement('div');
+    e.className='confetti';
+    e.textContent=['💗','💕','✨','🎀','🌸'][Math.floor(Math.random()*5)];
+    e.style.left=Math.random()*100+'vw';
+    e.style.animationDelay=Math.random()*.8+'s';
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),3500);
+  }
+}
+
+// Replace this with your Instagram username.
+const INSTAGRAM_USERNAME='YOUR_INSTAGRAM_USERNAME';
+document.getElementById('instaBtn').onclick=()=>{
+  if(INSTAGRAM_USERNAME==='YOUR_INSTAGRAM_USERNAME'){
+    alert('Replace YOUR_INSTAGRAM_USERNAME in the code with your Instagram username 💗');
+  }else{
+    window.open('https://instagram.com/'+INSTAGRAM_USERNAME,'_blank');
+  }
+};
+</script>
+</body>
+</html>
